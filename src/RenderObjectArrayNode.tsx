@@ -72,10 +72,10 @@ export const RenderObjectArrayNode: FC<
                 />
               )}
             </div>
-            {childNodes.map((childNode, index) => {
+            {childNodes.map((childNode, nodeIndex) => {
               return (
                 <RenderUiNode
-                  key={index}
+                  key={nodeIndex}
                   node={childNode}
                   object={objectInArray}
                   path={[]}

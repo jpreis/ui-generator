@@ -141,7 +141,7 @@ const simpleNode: UiNode = {
 
 function App() {
   const [editMode, setEditMode] = useState(true);
-  const [draftObject, setDraftObject] = useState(complexObject);
+  const [draftObject, setDraftObject] = useState(simpleObject);
 
   return (
     <div>
@@ -155,7 +155,7 @@ function App() {
       </FormGroup>
 
       <RenderUiNode
-        node={complexNode}
+        node={simpleNode}
         object={draftObject}
         path={complexNode.path}
         onChange={setDraftObject}
