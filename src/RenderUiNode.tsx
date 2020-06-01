@@ -14,9 +14,10 @@ export const RenderUiNode: FC<{
   path: (string | number)[];
   editMode: boolean;
   onChange: (updatedObject: any) => void;
-}> = ({ node, object, path, editMode, onChange }) => {
+  level?: number
+}> = ({ node, object, path, editMode, onChange, level = 0 }) => {
   const currentPath = path.concat(node.path);
-  const currentLevel = 1 + currentPath.length;
+  const currentLevel = 1 + level + currentPath.length;
 
   const lens = lensPath(currentPath);
   const propertyValue = view(lens, object);
@@ -37,46 +38,63 @@ export const RenderUiNode: FC<{
     6
   )}` as keyof JSX.IntrinsicElements;
 
-  switch (node.type) {
-    case NodeType.OBJECT:
-      return (
-        <>
-          <LevelHeading>{node.label}</LevelHeading>
-          {node.childNodes.map((node, index) => (
-            <RenderUiNode
-              key={`${node.path}-${index}`}
-              node={node}
-              object={object}
-              path={currentPath}
-              editMode={editMode}
-              onChange={onChange}
-            />
-          ))}
-        </>
-      );
-    case NodeType.OBJECT_ARRAY:
-      return (
-        <>
-          <LevelHeading>{node.label}</LevelHeading>
-          <RenderObjectArrayNode
-            {...basicProps}
-            templateObject={node.templateObject}
-            childNodes={node.childNodes}
-            objectLabel={node.objectLabel}
-          />
-        </>
-      );
-    case NodeType.NUMBER:
-      return <RenderNumberNode {...basicProps} />;
-    case NodeType.STRING:
-      return <RenderStringNode {...basicProps} />;
-    case NodeType.STRING_ARRAY:
-      return <RenderStringArrayNode {...basicProps} />;
-    case NodeType.NUMBER_ARRAY:
-      return <RenderNumberArrayNode {...basicProps} />;
-    case NodeType.BOOLEAN:
-      return <RenderBooleanNode {...basicProps} />;
-    default:
-      return null;
-  }
+  return (
+    <div
+      style={
+        currentLevel > 1
+          ? {
+              paddingLeft: "10px",
+              borderLeft: "2px solid #ddd",
+          marginBottom: `calc(3rem / ${currentLevel})`
+            }
+          : undefined
+      }
+    >
+      {(() => {
+        switch (node.type) {
+          case NodeType.OBJECT:
+            return (
+              <>
+                <LevelHeading>{node.label}</LevelHeading>
+                {node.childNodes.map((node, index) => (
+                  <RenderUiNode
+                    key={`${node.path}-${index}`}
+                    node={node}
+                    object={object}
+                    path={currentPath}
+                    editMode={editMode}
+                    onChange={onChange}
+                  />
+                ))}
+              </>
+            );
+          case NodeType.OBJECT_ARRAY:
+            return (
+              <>
+                <LevelHeading>{node.label}</LevelHeading>
+                <RenderObjectArrayNode
+                  {...basicProps}
+                  templateObject={node.templateObject}
+                  templateNodes={node.templateNodes}
+                  objectLabel={node.objectLabel}
+                  level={currentLevel}
+                />
+              </>
+            );
+          case NodeType.NUMBER:
+            return <RenderNumberNode {...basicProps} />;
+          case NodeType.STRING:
+            return <RenderStringNode {...basicProps} />;
+          case NodeType.STRING_ARRAY:
+            return <RenderStringArrayNode {...basicProps} />;
+          case NodeType.NUMBER_ARRAY:
+            return <RenderNumberArrayNode {...basicProps} />;
+          case NodeType.BOOLEAN:
+            return <RenderBooleanNode {...basicProps} />;
+          default:
+            return null;
+        }
+      })()}
+    </div>
+  );
 };

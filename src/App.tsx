@@ -48,7 +48,7 @@ const complexNode: UiNode = {
         num: 0,
         str: "",
       },
-      childNodes: [
+      templateNodes: [
         { type: NodeType.NUMBER, label: "Number node", path: ["num"] },
         {
           type: NodeType.STRING,
@@ -105,10 +105,10 @@ const complexNode: UiNode = {
 };
 
 const simpleObject = {
-  anObjectArray: [
+  testSuites: [
     {
-      num: 1,
-      str: "foobar",
+      name: "Trigger Tests",
+      specs: [{ name: "Spec 1" }],
     },
   ],
 };
@@ -116,23 +116,36 @@ const simpleObject = {
 const simpleNode: UiNode = {
   type: NodeType.OBJECT,
   path: [],
-  label: "Simple",
+  label: "Tests",
   childNodes: [
     {
       type: NodeType.OBJECT_ARRAY,
-      label: "Object Array",
-      objectLabel: "Object in Array",
-      path: ["anObjectArray"],
+      label: "Test Suites",
+      objectLabel: "Test Suite",
+      path: ["testSuites"],
       templateObject: {
-        num: 0,
-        str: "",
+        name: "",
+        specs: [],
       },
-      childNodes: [
-        { type: NodeType.NUMBER, label: "Number node", path: ["num"] },
+      templateNodes: [
         {
           type: NodeType.STRING,
-          label: "String node",
-          path: ["str"],
+          label: "Testsuite Name",
+          path: ["name"],
+        },
+        {
+          type: NodeType.OBJECT_ARRAY,
+          label: "Specs",
+          path: ["specs"],
+          objectLabel: "Spec",
+          templateObject: { name: "" },
+          templateNodes: [
+            {
+              type: NodeType.STRING,
+              label: "Spec Name",
+              path: ["name"],
+            },
+          ],
         },
       ],
     },

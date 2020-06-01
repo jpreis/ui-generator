@@ -36,7 +36,7 @@ export type StringArrayNode = BaseNode & {
 
 export type ObjectArrayNode = BaseNode & {
   type: NodeType.OBJECT_ARRAY;
-  childNodes: UiNode[];
+  templateNodes: UiNode[];
   objectLabel: string;
   templateObject: any;
 };

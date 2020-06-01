@@ -1,5 +1,5 @@
 import React, { FC, Fragment } from "react";
-import { lensIndex, remove, set } from "ramda";
+import { lensIndex, min, remove, set } from "ramda";
 import { Button, Callout, Intent } from "@blueprintjs/core";
 import { BasicRenderNodeProps, UiNode } from "./types";
 import { RenderUiNode } from "./RenderUiNode";
@@ -8,7 +8,8 @@ export const RenderObjectArrayNode: FC<
   BasicRenderNodeProps & {
     templateObject: Object;
     objectLabel: string;
-    childNodes: UiNode[];
+    templateNodes: UiNode[];
+    level: number;
   }
 > = ({
   propertyValue,
@@ -16,8 +17,10 @@ export const RenderObjectArrayNode: FC<
   objectLabel,
   editMode,
   templateObject,
-  childNodes,
+  templateNodes,
+  level,
 }) => {
+  const currentLevel = level + 1;
   const objectArrayValue = propertyValue as Object[];
 
   const updateObject = (newObject: any, index: number) => {
@@ -31,6 +34,12 @@ export const RenderObjectArrayNode: FC<
   const removeObject = (index: number) => {
     onChange(remove(index, 1, objectArrayValue));
   };
+
+  // determine heading tag based upon nesting level - don't go further than <h6>
+  const LevelHeading = `h${min(
+    currentLevel,
+    6
+  )}` as keyof JSX.IntrinsicElements;
 
   return (
     <>
@@ -51,16 +60,15 @@ export const RenderObjectArrayNode: FC<
       ) : (
         objectArrayValue.map((objectInArray, index) => (
           <Fragment key={index}>
-            <div
+            <LevelHeading
               style={{
-                marginBottom: "0.5rem",
                 display: "flex",
                 alignItems: "center",
               }}
             >
-              <strong style={{ marginRight: "0.5rem" }}>
+              <span style={{ marginRight: "0.5rem" }}>
                 {objectLabel}: {index + 1}
-              </strong>
+              </span>{" "}
               {editMode && (
                 <Button
                   icon={"trash"}
@@ -72,8 +80,9 @@ export const RenderObjectArrayNode: FC<
                   }}
                 />
               )}
-            </div>
-            {childNodes.map((childNode, nodeIndex) => {
+            </LevelHeading>
+
+            {templateNodes.map((childNode, nodeIndex) => {
               return (
                 <RenderUiNode
                   key={nodeIndex}
@@ -84,6 +93,7 @@ export const RenderObjectArrayNode: FC<
                   onChange={(updatedObject) => {
                     updateObject(updatedObject, index);
                   }}
+                  level={level}
                 />
               );
             })}
