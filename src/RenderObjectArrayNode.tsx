@@ -18,17 +18,18 @@ export const RenderObjectArrayNode: FC<
   templateObject,
   childNodes,
 }) => {
+  const objectArrayValue = propertyValue as Object[];
+
   const updateObject = (newObject: any, index: number) => {
     onChange(set(lensIndex(index), newObject, propertyValue));
   };
 
   const addObject = () => {
-    onChange((propertyValue as Object[]).concat(templateObject));
+    onChange(objectArrayValue.concat(templateObject));
   };
 
   const removeObject = (index: number) => {
-    console.log(remove(index, 1, propertyValue));
-    onChange(remove(index, 1, propertyValue));
+    onChange(remove(index, 1, objectArrayValue));
   };
 
   return (
@@ -45,10 +46,10 @@ export const RenderObjectArrayNode: FC<
         </Button>
       )}
 
-      {(propertyValue as Object[]).length === 0 ? (
+      {objectArrayValue.length === 0 ? (
         <Callout>There are no items</Callout>
       ) : (
-        (propertyValue as Object[]).map((objectInArray, index) => (
+        objectArrayValue.map((objectInArray, index) => (
           <Fragment key={index}>
             <div
               style={{

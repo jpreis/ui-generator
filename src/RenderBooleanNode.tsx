@@ -8,19 +8,21 @@ export const RenderBooleanNode: FC<BasicRenderNodeProps> = ({
   label,
   editMode,
 }) => {
+  const booleanValue = propertyValue as boolean;
+
   return (
     <FormGroup label={label} inline>
       {editMode ? (
         <Switch
           large
-          checked={propertyValue as boolean}
+          checked={booleanValue}
           onChange={() => {
             onChange(!propertyValue);
           }}
         />
       ) : (
         <Tag large intent={propertyValue ? Intent.PRIMARY : Intent.WARNING}>
-          {(propertyValue as boolean) ? "yes" : "no"}
+          {booleanValue ? "yes" : "no"}
         </Tag>
       )}
     </FormGroup>

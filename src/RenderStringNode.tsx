@@ -8,18 +8,20 @@ export const RenderStringNode: FC<BasicRenderNodeProps> = ({
   label,
   editMode,
 }) => {
+  const stringValue = propertyValue as string;
+
   return (
     <FormGroup label={label} inline>
       {editMode ? (
         <InputGroup
-          value={propertyValue as string}
+          value={stringValue}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onChange(event.target.value);
           }}
         />
       ) : (
         <Tag large minimal>
-          {propertyValue as string}
+          {stringValue}
         </Tag>
       )}
     </FormGroup>

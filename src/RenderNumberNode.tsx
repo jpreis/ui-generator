@@ -8,11 +8,13 @@ export const RenderNumberNode: FC<BasicRenderNodeProps> = ({
   label,
   editMode,
 }) => {
+  const numberValue = propertyValue as number;
+
   return (
     <FormGroup label={label} inline>
       {editMode ? (
         <NumericInput
-          value={propertyValue as number}
+          value={numberValue}
           onValueChange={(valueAsNumber) => {
             if (!isNaN(valueAsNumber)) {
               onChange(valueAsNumber);
@@ -20,7 +22,7 @@ export const RenderNumberNode: FC<BasicRenderNodeProps> = ({
           }}
         />
       ) : (
-        <Tag large>{propertyValue as number}</Tag>
+        <Tag large>{numberValue}</Tag>
       )}
     </FormGroup>
   );

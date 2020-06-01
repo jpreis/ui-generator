@@ -8,11 +8,13 @@ export const RenderStringArrayNode: FC<BasicRenderNodeProps> = ({
   label,
   editMode,
 }) => {
+  const stringArrayValue = propertyValue as string[];
+
   return (
     <FormGroup label={label} inline>
       {editMode ? (
         <TagInput
-          values={propertyValue as string[]}
+          values={stringArrayValue}
           tagProps={{ minimal: true }}
           // @ts-ignore
           onChange={(values: string[]) => {
@@ -21,7 +23,7 @@ export const RenderStringArrayNode: FC<BasicRenderNodeProps> = ({
         />
       ) : (
         <>
-          {(propertyValue as string[]).map((value: string) => (
+          {stringArrayValue.map((value) => (
             <Tag key={value} large minimal style={{ marginRight: "5px" }}>
               {value}
             </Tag>

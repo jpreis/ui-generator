@@ -9,21 +9,23 @@ export const RenderNumberArrayNode: FC<BasicRenderNodeProps> = ({
   label,
   editMode,
 }) => {
+  const numberArrayValue = propertyValue as number[];
+
   return (
     <FormGroup label={label} inline>
       {editMode ? (
         <TagInput
-          values={propertyValue as number[]}
+          values={numberArrayValue}
           tagProps={{ minimal: true }}
           onRemove={(_, index) => {
             onChange(remove(index, 1, propertyValue as readonly number[]));
           }}
           onAdd={(values) => {
             values.forEach((value) => {
+              const validValues = numberArrayValue;
               const valueAsNumber = Number(value);
-              const validValues = propertyValue;
               if (!isNaN(valueAsNumber)) {
-                (validValues as number[]).push(valueAsNumber);
+                validValues.push(valueAsNumber);
               }
               onChange(validValues);
             });
@@ -31,7 +33,7 @@ export const RenderNumberArrayNode: FC<BasicRenderNodeProps> = ({
         />
       ) : (
         <>
-          {(propertyValue as number[]).map((value) => (
+          {numberArrayValue.map((value) => (
             <Tag key={value} large style={{ marginRight: "5px" }}>
               {value}
             </Tag>
