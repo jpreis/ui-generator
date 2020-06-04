@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { FormGroup, Pre, Switch } from "@blueprintjs/core";
-import { NodeType, UiNode } from "./types";
-import { RenderUiNode } from "./RenderUiNode";
+import React, {useState} from "react";
+import {FormGroup, Pre, Switch} from "@blueprintjs/core";
+import {NodeType, UiNode} from "./types";
+import {RenderUiNode} from "./RenderUiNode";
 
 const complexObject = {
   numberProp: 1,
@@ -58,6 +58,45 @@ const complexNode: UiNode = {
       ],
     },
     {
+
+      type: NodeType.OBJECT,
+      path: [],
+      label: "Tests",
+      childNodes: [
+        {
+          type: NodeType.OBJECT_ARRAY,
+          label: "Test Suites",
+          objectLabel: "Test Suite",
+          path: ["testSuites"],
+          templateObject: {
+            name: "",
+            specs: [],
+          },
+          templateNodes: [
+            {
+              type: NodeType.STRING,
+              label: "Testsuite Name",
+              path: ["name"],
+            },
+            {
+              type: NodeType.OBJECT_ARRAY,
+              label: "Specs",
+              path: ["specs"],
+              objectLabel: "Spec",
+              templateObject: { name: "" },
+              templateNodes: [
+                {
+                  type: NodeType.STRING,
+                  label: "Spec Name",
+                  path: ["name"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       type: NodeType.OBJECT,
       label: "Nested Prop",
       path: ["nestedProp"],
@@ -105,51 +144,13 @@ const complexNode: UiNode = {
 };
 
 const simpleObject = {
-  testSuites: [
-    {
-      name: "Trigger Tests",
-      specs: [{ name: "Spec 1" }],
-    },
-  ],
+  code: "console.log(\"Hello World!\")"
 };
 
 const simpleNode: UiNode = {
-  type: NodeType.OBJECT,
-  path: [],
-  label: "Tests",
-  childNodes: [
-    {
-      type: NodeType.OBJECT_ARRAY,
-      label: "Test Suites",
-      objectLabel: "Test Suite",
-      path: ["testSuites"],
-      templateObject: {
-        name: "",
-        specs: [],
-      },
-      templateNodes: [
-        {
-          type: NodeType.STRING,
-          label: "Testsuite Name",
-          path: ["name"],
-        },
-        {
-          type: NodeType.OBJECT_ARRAY,
-          label: "Specs",
-          path: ["specs"],
-          objectLabel: "Spec",
-          templateObject: { name: "" },
-          templateNodes: [
-            {
-              type: NodeType.STRING,
-              label: "Spec Name",
-              path: ["name"],
-            },
-          ],
-        },
-      ],
-    },
-  ],
+  type: NodeType.SPEL,
+  label: "Code",
+  path: ["code"]
 };
 
 function App() {

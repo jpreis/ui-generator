@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { FormGroup, Tag, TagInput } from "@blueprintjs/core";
 import { remove } from "ramda";
-import { BasicRenderNodeProps } from "./types";
+import { RenderNodeBaseProps } from "./types";
 
-export const RenderNumberArrayNode: FC<BasicRenderNodeProps> = ({
+export const RenderNumberArrayNode: FC<RenderNodeBaseProps> = ({
   propertyValue,
   onChange,
   label,

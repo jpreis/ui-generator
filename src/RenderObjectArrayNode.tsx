@@ -1,11 +1,11 @@
 import React, { FC, Fragment } from "react";
 import { lensIndex, min, remove, set } from "ramda";
 import { Button, Callout, Intent } from "@blueprintjs/core";
-import { BasicRenderNodeProps, UiNode } from "./types";
+import { RenderNodeBaseProps, UiNode } from "./types";
 import { RenderUiNode } from "./RenderUiNode";
 
 export const RenderObjectArrayNode: FC<
-  BasicRenderNodeProps & {
+  RenderNodeBaseProps & {
     templateObject: Object;
     objectLabel: string;
     templateNodes: UiNode[];
@@ -43,19 +43,7 @@ export const RenderObjectArrayNode: FC<
 
   return (
     <>
-      {editMode && (
-        <Button
-          outlined
-          intent={Intent.PRIMARY}
-          icon={"add"}
-          style={{ marginBottom: "1rem" }}
-          onClick={addObject}
-        >
-          Add '{objectLabel}'
-        </Button>
-      )}
-
-      {objectArrayValue.length === 0 ? (
+        {objectArrayValue.length === 0 ? (
         <Callout>There are no items</Callout>
       ) : (
         objectArrayValue.map((objectInArray, index) => (
@@ -97,8 +85,21 @@ export const RenderObjectArrayNode: FC<
                 />
               );
             })}
+
           </Fragment>
+
         ))
+      )}
+      {editMode && (
+          <Button
+              outlined
+              intent={Intent.PRIMARY}
+              icon={"add"}
+              style={{ marginBottom: "1rem" }}
+              onClick={addObject}
+          >
+            Add '{objectLabel}'
+          </Button>
       )}
     </>
   );

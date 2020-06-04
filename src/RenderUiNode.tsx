@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { BasicRenderNodeProps, NodeType, UiNode } from "./types";
+import { RenderNodeBaseProps, NodeType, UiNode } from "./types";
 import { lensPath, min, partialRight, set, view } from "ramda";
 import { RenderObjectArrayNode } from "./RenderObjectArrayNode";
 import { RenderNumberNode } from "./RenderNumberNode";
@@ -7,6 +7,7 @@ import { RenderStringNode } from "./RenderStringNode";
 import { RenderStringArrayNode } from "./RenderStringArrayNode";
 import { RenderNumberArrayNode } from "./RenderNumberArrayNode";
 import { RenderBooleanNode } from "./RenderBooleanNode";
+import { RenderSpelNode } from "./RenderSpelNode";
 
 export const RenderUiNode: FC<{
   node: UiNode;
@@ -14,7 +15,7 @@ export const RenderUiNode: FC<{
   path: (string | number)[];
   editMode: boolean;
   onChange: (updatedObject: any) => void;
-  level?: number
+  level?: number;
 }> = ({ node, object, path, editMode, onChange, level = 0 }) => {
   const currentPath = path.concat(node.path);
   const currentLevel = 1 + level + currentPath.length;
@@ -23,7 +24,7 @@ export const RenderUiNode: FC<{
   const propertyValue = view(lens, object);
   const setPropertyValue = partialRight(set(lens), [object]);
 
-  const basicProps: BasicRenderNodeProps = {
+  const baseProps: RenderNodeBaseProps = {
     propertyValue: propertyValue,
     onChange: (newPropertyValue: any) => {
       onChange(setPropertyValue(newPropertyValue));
@@ -45,7 +46,7 @@ export const RenderUiNode: FC<{
           ? {
               paddingLeft: "10px",
               borderLeft: "2px solid #ddd",
-          marginBottom: `calc(3rem / ${currentLevel})`
+              marginBottom: `calc(3rem / ${currentLevel})`,
             }
           : undefined
       }
@@ -73,7 +74,7 @@ export const RenderUiNode: FC<{
               <>
                 <LevelHeading>{node.label}</LevelHeading>
                 <RenderObjectArrayNode
-                  {...basicProps}
+                  {...baseProps}
                   templateObject={node.templateObject}
                   templateNodes={node.templateNodes}
                   objectLabel={node.objectLabel}
@@ -82,15 +83,17 @@ export const RenderUiNode: FC<{
               </>
             );
           case NodeType.NUMBER:
-            return <RenderNumberNode {...basicProps} />;
+            return <RenderNumberNode {...baseProps} />;
           case NodeType.STRING:
-            return <RenderStringNode {...basicProps} />;
+            return <RenderStringNode {...baseProps} />;
           case NodeType.STRING_ARRAY:
-            return <RenderStringArrayNode {...basicProps} />;
+            return <RenderStringArrayNode {...baseProps} />;
+          case NodeType.SPEL:
+            return <RenderSpelNode {...baseProps} />;
           case NodeType.NUMBER_ARRAY:
-            return <RenderNumberArrayNode {...basicProps} />;
+            return <RenderNumberArrayNode {...baseProps} />;
           case NodeType.BOOLEAN:
-            return <RenderBooleanNode {...basicProps} />;
+            return <RenderBooleanNode {...baseProps} />;
           default:
             return null;
         }

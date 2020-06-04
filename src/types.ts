@@ -1,11 +1,12 @@
 export enum NodeType {
-  BOOLEAN,
-  NUMBER,
-  STRING,
-  NUMBER_ARRAY,
-  STRING_ARRAY,
-  OBJECT_ARRAY,
-  OBJECT,
+  BOOLEAN = "BOOLEAN",
+  NUMBER = "NUMBER",
+  STRING = "STRING",
+  SPEL = "SPEL",
+  NUMBER_ARRAY = "NUMBER_ARRAY",
+  STRING_ARRAY = "STRING_ARRAY",
+  OBJECT_ARRAY = "OBJECT_ARRAY",
+  OBJECT = "OBJECT",
 }
 
 export type BaseNode = {
@@ -34,6 +35,10 @@ export type StringArrayNode = BaseNode & {
   type: NodeType.STRING_ARRAY;
 };
 
+export type SpelNode = BaseNode & {
+  type: NodeType.SPEL;
+};
+
 export type ObjectArrayNode = BaseNode & {
   type: NodeType.OBJECT_ARRAY;
   templateNodes: UiNode[];
@@ -52,10 +57,11 @@ export type UiNode =
   | StringNode
   | NumberArrayNode
   | StringArrayNode
+  | SpelNode
   | ObjectArrayNode
   | ObjectNode;
 
-export type BasicRenderNodeProps = {
+export type RenderNodeBaseProps = {
   propertyValue: any;
   onChange: (newPropertyValue: any) => void;
   label: string;

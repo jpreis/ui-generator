@@ -1,8 +1,8 @@
 import { FormGroup, InputGroup, Tag } from "@blueprintjs/core";
 import React, { ChangeEvent, FC } from "react";
-import { BasicRenderNodeProps } from "./types";
+import { RenderNodeBaseProps } from "./types";
 
-export const RenderStringNode: FC<BasicRenderNodeProps> = ({
+export const RenderStringNode: FC<RenderNodeBaseProps> = ({
   propertyValue,
   onChange,
   label,
