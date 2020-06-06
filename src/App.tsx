@@ -140,15 +140,25 @@ const complexNode: UiNode = {
         },
       ],
     },
+    {
+      type: NodeType.SPEL,
+      label: "Code",
+      path: ["code"]
+    },
+    {
+      type: NodeType.JSON,
+      label: "Code",
+      path: ["code"]
+    }
   ],
 };
 
 const simpleObject = {
-  code: "console.log(\"Hello World!\")"
+
 };
 
 const simpleNode: UiNode = {
-  type: NodeType.SPEL,
+  type: NodeType.JSON,
   label: "Code",
   path: ["code"]
 };
@@ -171,7 +181,7 @@ function App() {
       <RenderUiNode
         node={simpleNode}
         object={draftObject}
-        path={complexNode.path}
+        path={simpleNode.path}
         onChange={setDraftObject}
         editMode={editMode}
       />

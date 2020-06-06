@@ -8,6 +8,7 @@ import { RenderStringArrayNode } from "./RenderStringArrayNode";
 import { RenderNumberArrayNode } from "./RenderNumberArrayNode";
 import { RenderBooleanNode } from "./RenderBooleanNode";
 import { RenderSpelNode } from "./RenderSpelNode";
+import { RenderJsonNode } from "./RenderJsonlNode";
 
 export const RenderUiNode: FC<{
   node: UiNode;
@@ -94,6 +95,8 @@ export const RenderUiNode: FC<{
             return <RenderNumberArrayNode {...baseProps} />;
           case NodeType.BOOLEAN:
             return <RenderBooleanNode {...baseProps} />;
+          case NodeType.JSON:
+            return <RenderJsonNode {...baseProps} />;
           default:
             return null;
         }

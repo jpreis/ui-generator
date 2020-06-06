@@ -20,7 +20,6 @@ export const RenderObjectArrayNode: FC<
   templateNodes,
   level,
 }) => {
-  const currentLevel = level + 1;
   const objectArrayValue = propertyValue as Object[];
 
   const updateObject = (newObject: any, index: number) => {
@@ -36,14 +35,11 @@ export const RenderObjectArrayNode: FC<
   };
 
   // determine heading tag based upon nesting level - don't go further than <h6>
-  const LevelHeading = `h${min(
-    currentLevel,
-    6
-  )}` as keyof JSX.IntrinsicElements;
+  const LevelHeading = `h${min(level + 1, 6)}` as keyof JSX.IntrinsicElements;
 
   return (
     <>
-        {objectArrayValue.length === 0 ? (
+      {objectArrayValue.length === 0 ? (
         <Callout>There are no items</Callout>
       ) : (
         objectArrayValue.map((objectInArray, index) => (
@@ -85,21 +81,19 @@ export const RenderObjectArrayNode: FC<
                 />
               );
             })}
-
           </Fragment>
-
         ))
       )}
       {editMode && (
-          <Button
-              outlined
-              intent={Intent.PRIMARY}
-              icon={"add"}
-              style={{ marginBottom: "1rem" }}
-              onClick={addObject}
-          >
-            Add '{objectLabel}'
-          </Button>
+        <Button
+          outlined
+          intent={Intent.PRIMARY}
+          icon={"add"}
+          style={{ marginBottom: "1rem" }}
+          onClick={addObject}
+        >
+          Add '{objectLabel}'
+        </Button>
       )}
     </>
   );

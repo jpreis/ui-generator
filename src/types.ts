@@ -7,6 +7,7 @@ export enum NodeType {
   STRING_ARRAY = "STRING_ARRAY",
   OBJECT_ARRAY = "OBJECT_ARRAY",
   OBJECT = "OBJECT",
+  JSON = "JSON",
 }
 
 export type BaseNode = {
@@ -39,6 +40,10 @@ export type SpelNode = BaseNode & {
   type: NodeType.SPEL;
 };
 
+export type JsonNode = BaseNode & {
+  type: NodeType.JSON;
+};
+
 export type ObjectArrayNode = BaseNode & {
   type: NodeType.OBJECT_ARRAY;
   templateNodes: UiNode[];
@@ -59,7 +64,8 @@ export type UiNode =
   | StringArrayNode
   | SpelNode
   | ObjectArrayNode
-  | ObjectNode;
+  | ObjectNode
+  | JsonNode;
 
 export type RenderNodeBaseProps = {
   propertyValue: any;
